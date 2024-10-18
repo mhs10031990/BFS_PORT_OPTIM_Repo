@@ -1,8 +1,7 @@
 import numpy as np
 import pandas as pd
-import streamlit as st
-import plotly.graph_objs as go
-from plotly.subplots import make_subplots
+# import plotly.graph_objs as go
+# from plotly.subplots import make_subplots
 from dateutil.relativedelta import relativedelta
 
 def convert_time_steps_to_dates(start_date_str, time_steps):
@@ -14,58 +13,58 @@ def convert_time_steps_to_dates(start_date_str, time_steps):
     
     return actual_dates
 
-def plot_interactive_simulation_results(all_cumulative_returns, final_portfolio_values, start_date):
-    # Plot cumulative return paths
-    num_simulations_to_plot = min(100, all_cumulative_returns.shape[1])  # Limit to avoid clutter
-    time_steps = np.arange(all_cumulative_returns.shape[0])
+# def plot_interactive_simulation_results(all_cumulative_returns, final_portfolio_values, start_date):
+#     # Plot cumulative return paths
+#     num_simulations_to_plot = min(100, all_cumulative_returns.shape[1])  # Limit to avoid clutter
+#     time_steps = np.arange(all_cumulative_returns.shape[0])
 
-    fig = make_subplots(rows=1, cols=2, subplot_titles=(
-        'Monte Carlo Simulation - Cumulative Returns',
-        'Distribution of Final Portfolio Values'
-    ))
+#     fig = make_subplots(rows=1, cols=2, subplot_titles=(
+#         'Monte Carlo Simulation - Cumulative Returns',
+#         'Distribution of Final Portfolio Values'
+#     ))
 
-    # Cumulative Returns Plot
-    for i in range(num_simulations_to_plot):
-        fig.add_trace(
-            go.Scatter(
-                x=convert_time_steps_to_dates(start_date, time_steps),
-                y=all_cumulative_returns[:, i],
-                mode='lines',
-                line=dict(width=1),
-                showlegend=False
-            ),
-            row=1,
-            col=1
-        )
-    fig.update_xaxes(title_text='Time Steps', row=1, col=1)
-    fig.update_yaxes(title_text='Portfolio Value ($)', row=1, col=1)
+#     # Cumulative Returns Plot
+#     for i in range(num_simulations_to_plot):
+#         fig.add_trace(
+#             go.Scatter(
+#                 x=convert_time_steps_to_dates(start_date, time_steps),
+#                 y=all_cumulative_returns[:, i],
+#                 mode='lines',
+#                 line=dict(width=1),
+#                 showlegend=False
+#             ),
+#             row=1,
+#             col=1
+#         )
+#     fig.update_xaxes(title_text='Time Steps', row=1, col=1)
+#     fig.update_yaxes(title_text='Portfolio Value ($)', row=1, col=1)
 
-    # Histogram of Final Portfolio Values
-    hist_data = [final_portfolio_values]
-    fig.add_trace(
-        go.Histogram(
-            x=final_portfolio_values,
-            nbinsx=50,
-            marker_color='blue',
-            opacity=0.75,
-            showlegend=False
-        ),
-        row=1,
-        col=2
-    )
-    mean_value = np.mean(final_portfolio_values)
-    var_95 = np.percentile(final_portfolio_values, 5)
+#     # Histogram of Final Portfolio Values
+#     hist_data = [final_portfolio_values]
+#     fig.add_trace(
+#         go.Histogram(
+#             x=final_portfolio_values,
+#             nbinsx=50,
+#             marker_color='blue',
+#             opacity=0.75,
+#             showlegend=False
+#         ),
+#         row=1,
+#         col=2
+#     )
+#     mean_value = np.mean(final_portfolio_values)
+#     var_95 = np.percentile(final_portfolio_values, 5)
 
-    # Add mean and VaR lines
-    fig.add_vline(x=mean_value, line=dict(color='red', dash='dash'), row=1, col=2)
-    fig.add_vline(x=var_95, line=dict(color='green', dash='dash'), row=1, col=2)
+#     # Add mean and VaR lines
+#     fig.add_vline(x=mean_value, line=dict(color='red', dash='dash'), row=1, col=2)
+#     fig.add_vline(x=var_95, line=dict(color='green', dash='dash'), row=1, col=2)
 
-    fig.update_xaxes(title_text='Final Portfolio Value ($)', row=1, col=2)
-    fig.update_yaxes(title_text='Frequency', row=1, col=2)
+#     fig.update_xaxes(title_text='Final Portfolio Value ($)', row=1, col=2)
+#     fig.update_yaxes(title_text='Frequency', row=1, col=2)
 
-    fig.update_layout(height=500, width=1000)
+#     fig.update_layout(height=500, width=1000)
 
-    st.plotly_chart(fig)
+#     st.plotly_chart(fig)
 
 def get_simulation_insights(sim_results, initial_investment):
     mean_return = np.mean(sim_results)
